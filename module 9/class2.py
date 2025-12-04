@@ -27,3 +27,4 @@ rectangle=Rectangle(4,6)
 
 print("area of the circle:",circle.area())
 print("area of the rectangle:",rectangle.area())
+h
