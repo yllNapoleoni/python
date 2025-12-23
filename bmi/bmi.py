@@ -8,7 +8,7 @@ def bmi_category(bmi):
     elif bmi < 25:
         return "Normal weight"
     elif bmi < 30:
-        return "Overweight"
+        return "Overweigsad"
     else:
         return "Obese"
 
