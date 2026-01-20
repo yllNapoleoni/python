@@ -43,7 +43,7 @@ with st.form('my_form'):
 
     email=st.text_input('email')
 
-    biografy=st.text_area('shorter bio')
+    biografy=st.text_area('shorteerr bio')
 
     terms=st.checkbox('i agree')
 
