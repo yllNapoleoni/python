@@ -2,6 +2,8 @@ import pandas as pd
 import streamlit as st
 import plotly as pt
 
+from module19.app import total_books, unique_titles, average_rating, average_price, top_titles
+
 book_df=pd.read.csv('bestsellers_with_categories_2022_03_27.csv')
 
 st.title('bestselling books analysis')
@@ -42,6 +44,49 @@ selected_year=st.sidebar.selectbox('select year',['all']+list(books_df['year'].u
 selected_genre=st.sidebar.selectbox('selected genre',['all']+list(books_df['year'],unique()))
 min_rating=st.sidebar.slider('maximum user rating',0.0,5.0,0.1)
 max_price=st.sidebar.slider('max price',0,books_df['price'].max(),books_df['price'].max())
+
+filtered_books_df =books_df.copy()
+
+if selected_author !='all':
+    filtered_books_df=filtered_books_df[filtered_books_df['author']==selected_author]
+if selected_author != 'all':
+    filtered_books_df = filtered_books_df[filtered_books_df['year'] == selected_year]
+if selected_author != 'all':
+    filtered_books_df = filtered_books_df[filtered_books_df['genre'] == selected_genre]
+
+filtered_books_df=filtered_books_df[
+    (filtered_books_df['user rating']>=min_rating)&(filtered_books_df['price']<= max_price)
+]
+
+
+st.subheader('summary statistics')
+total_books=filtered_books_df.shape[0]
+unique_titles=filtered_books_df['name'].nunique()
+average_rating=filtered_books_df['user rating'].mean()
+average_price=filtered_books_df['price'].mean()
+
+
+col1,col2,col3,col4=st.columns(4)
+col1.mentric('total books',total_books)
+col2.mentric('unique titles',unique_titles)
+col3.mentric('average rating',average_rating)
+col4.mentric('average price',average_price)
+
+st.subheader('dataset preview')
+st.write(filtered_books_df.head())
+
+
+col1,col2=st.columns(2)
+
+with col1:
+    st.subheader('top 10 selling books')
+    top_titles=filtered_books_df['name'].value_counts().head(10)
+    st.bar_chart(top_titles)
+with col2:
+    st.subheader('top 10 authors')
+    top_authors=filtered_books_df['authors'].value_counts().head(10)
+    st.bar_chart(top_authors)
+
 
 
 
